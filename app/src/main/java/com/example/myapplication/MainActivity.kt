@@ -20,7 +20,9 @@ class MainActivity : ComponentActivity() {
             BloomTheme() {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    WelcomePage()
+//                    WelcomePage()
+
+                    LoginPage()
                 }
             }
         }
