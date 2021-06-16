@@ -2,6 +2,7 @@ package com.example.myapplication
 
 import android.graphics.Color
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 
@@ -12,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
@@ -22,7 +24,9 @@ import com.example.myapplication.ui.theme.BloomTheme
 import com.example.myapplication.ui.theme.pink100
 import com.example.myapplication.ui.theme.pink900
 import com.example.myapplication.ui.theme.white
-
+enum class FieldType {
+    email, password, phone, text
+}
 
 @Composable
 fun LoginPage(){
@@ -47,13 +51,13 @@ fun LoginPage(){
             CustomTextField(value = emailValue.value, onChange = {
                                                                  emailValue.value = it
 
-            }, hinttext = "Email address", ispassField = false, )
+            }, hinttext = "Email address", ispassField = false, type = FieldType.email)
 
             Spacer(modifier = Modifier.height(8.dp))
 
             CustomTextField(value = passwordValue.value, onChange = {
                                 passwordValue.value = it
-            }, hinttext = "PassWord", ispassField = true)
+            }, hinttext = "PassWord", ispassField = true, type = FieldType.password)
 
 
             Text(text = "By clicking below, you agree to our Terms of use and consent to our Private Policy", textAlign = TextAlign.Center, style = MaterialTheme.typography.body2, modifier = Modifier.paddingFromBaseline(top = 24.dp))
@@ -80,20 +84,80 @@ fun HeaderText(){
 }
 
 @Composable
-fun CustomTextField(value:String, onChange: (value:String)-> Unit, hinttext: String, ispassField: Boolean,){
+fun CustomTextField(value:String, onChange: (value:String)-> Unit, hinttext: String, ispassField: Boolean,  type: FieldType) {
 //    var passwordVisiblity = remember { mutableStateOf(false) }
 //    var passwordVisibility: Boolean by remember { mutableStateOf(false) }
 //    var visible by remember { mutableStateOf(true) }
 //    var value by remember { mutableStateOf(false) }
+
+
+
+//    fun gettype(): KeyboardType{
+//        when(type){
+//       FieldType.password  ->   KeyboardType.Password
+//           FieldType.email  -> KeyboardType.Email
+//            FieldType.phone -> KeyboardType.Phone
+//        }
+//        return  KeyboardType.Phone
+//    }
+
+        fun getType(): KeyboardType {
+
+            if(type == FieldType.password){
+            return    KeyboardType.Password
+            }else if(type == FieldType.email){
+                return KeyboardType.Email
+            }
+            return  KeyboardType.Text
+        }
+
+
+
+
+//    TextInputType getTextInputType() {
+//        switch (type) {
+//            case FieldType.email:
+//            return TextInputType.emailAddress;
+//            break;
+//            case FieldType.phone:
+//            return TextInputType.phone;
+//            break;
+//
+//            case FieldType.multiline:
+//            return TextInputType.multiline;
+//            break;
+//            case FieldType.number:
+//            return TextInputType.number;
+//            default:
+//            return TextInputType.text;
+//            break;
+//        }
+//    }
+
+//    TextInputAction getActionInputType( ) {
+//        switch (textActionType) {
+//            case ActionType.next:
+//            return TextInputAction.next;
+//            break;
+//            case ActionType.done:
+//            return TextInputAction.done;
+//            break;
+//            default:
+//            return TextInputAction.next;
+//            break;
+//        }
+//    }
+
  var obscure =    if (ispassField) PasswordVisualTransformation() else VisualTransformation.None
 
     val isLight = MaterialTheme.colors.isLight
     val textColor =  if (isLight) pink900 else Color.WHITE
 
 
-    OutlinedTextField(value = value, onValueChange = onChange, modifier = Modifier.fillMaxWidth(),  label = {
-        Text(text = hinttext )
-    }, visualTransformation = obscure, trailingIcon = {
+
+
+
+    OutlinedTextField(value = value,     onValueChange = onChange, modifier = Modifier.fillMaxWidth(),  label = { Text(text = hinttext ) }, visualTransformation = obscure, trailingIcon = {
         if (ispassField)
             TextButton(onClick = {
 //                value =!value
@@ -104,7 +168,9 @@ fun CustomTextField(value:String, onChange: (value:String)-> Unit, hinttext: Str
                 Text(text = "Show" , color = if (isLight) pink900 else white )
             }
                  else Text("")
-    }  )
+    }, keyboardOptions = KeyboardOptions.Default.copy(
+        keyboardType =  getType()
+    )  )
 }
 
 
@@ -125,3 +191,5 @@ fun DefaultDarkPreview() {
         LoginPage()
     }
 }
+
+
