@@ -1,8 +1,7 @@
 package com.example.myapplication
 
-import android.graphics.fonts.Font
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.ButtonDefaults.buttonColors
@@ -11,16 +10,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.ui.theme.BloomTheme
-import com.example.myapplication.ui.theme.Shapes
+import androidx.navigation.NavController
+
 import com.example.myapplication.ui.theme.pink900
 import com.example.myapplication.ui.theme.white
 
 
 @Composable
-fun WelcomePage(){
+fun WelcomePage(navController: NavController){
 
     val isLight = MaterialTheme.colors.isLight
 Surface(
@@ -31,7 +30,7 @@ Surface(
 
 ){
     WelcomeBackgroundImage(isLight = isLight)
-WelcomeScreenContent(isLight = isLight)
+WelcomeScreenContent(isLight = isLight, navController = navController)
 }
 
 }
@@ -39,7 +38,7 @@ WelcomeScreenContent(isLight = isLight)
 
 
 @Composable
-fun WelcomeScreenContent(isLight: Boolean){
+fun WelcomeScreenContent(isLight: Boolean, navController: NavController){
     Column (
 
         Modifier.fillMaxWidth(),
@@ -54,9 +53,13 @@ fun WelcomeScreenContent(isLight: Boolean){
 
         TextWidget(typography = MaterialTheme, text = "Beautiful Home garden solution")
         Spacer(modifier = Modifier.height(40.dp))
-        CreateButton(typography = MaterialTheme, text = "Create an Account")
+        CreateButton(typography = MaterialTheme, text = "Create an Account", onButtonClick = {
+            print("clicked")
+        })
         Spacer(modifier = Modifier.height(8.dp))
-        LoginButton(typography = MaterialTheme, isLight = isLight, text = "Log in")
+        LoginButton(typography = MaterialTheme, isLight = isLight, text = "Log in", onButtonClick = {
+            navController.navigate("login")
+        })
     }
 }
 
@@ -96,9 +99,9 @@ fun LogoImage(isLight: Boolean){
 
 
 @Composable
-fun LoginButton(typography:MaterialTheme, isLight: Boolean, text: String){
+fun LoginButton(typography:MaterialTheme, isLight: Boolean, text: String, onButtonClick: () -> Unit){
 
-    TextButton(onClick = { /*TODO*/ },
+    TextButton(onClick = onButtonClick,
         modifier = Modifier.fillMaxWidth())
     {
         Text(text = text, style = typography.typography.button, color = if (isLight) pink900 else white)
@@ -107,8 +110,9 @@ fun LoginButton(typography:MaterialTheme, isLight: Boolean, text: String){
 
 
 @Composable
-fun CreateButton(typography:MaterialTheme, text: String){
-    Button(onClick = { /*TODO*/ },
+fun CreateButton(typography:MaterialTheme, text: String,  onButtonClick:() -> Unit  ){
+    Button(onClick = onButtonClick,
+
 
         modifier = Modifier.fillMaxWidth()
             .padding(horizontal = 16.dp)

@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.BloomTheme
 import com.example.myapplication.ui.theme.pink100
 import com.example.myapplication.ui.theme.pink900
@@ -27,6 +28,11 @@ import com.example.myapplication.ui.theme.white
 enum class FieldType {
     email, password, phone, text
 }
+
+
+
+
+
 
 @Composable
 fun LoginPage(){
@@ -63,7 +69,9 @@ fun LoginPage(){
             Text(text = "By clicking below, you agree to our Terms of use and consent to our Private Policy", textAlign = TextAlign.Center, style = MaterialTheme.typography.body2, modifier = Modifier.paddingFromBaseline(top = 24.dp))
             
             Spacer(modifier = Modifier.height(20.dp))
-            CreateButton(typography = MaterialTheme,  text = "Log in")
+            CreateButton(typography = MaterialTheme,  text = "Log in",  onButtonClick = {
+                print("clic")
+            })
 
 
         }
@@ -85,21 +93,7 @@ fun HeaderText(){
 
 @Composable
 fun CustomTextField(value:String, onChange: (value:String)-> Unit, hinttext: String, ispassField: Boolean,  type: FieldType) {
-//    var passwordVisiblity = remember { mutableStateOf(false) }
-//    var passwordVisibility: Boolean by remember { mutableStateOf(false) }
-//    var visible by remember { mutableStateOf(true) }
-//    var value by remember { mutableStateOf(false) }
 
-
-
-//    fun gettype(): KeyboardType{
-//        when(type){
-//       FieldType.password  ->   KeyboardType.Password
-//           FieldType.email  -> KeyboardType.Email
-//            FieldType.phone -> KeyboardType.Phone
-//        }
-//        return  KeyboardType.Phone
-//    }
 
         fun getType(): KeyboardType {
 
@@ -151,7 +145,7 @@ fun CustomTextField(value:String, onChange: (value:String)-> Unit, hinttext: Str
  var obscure =    if (ispassField) PasswordVisualTransformation() else VisualTransformation.None
 
     val isLight = MaterialTheme.colors.isLight
-    val textColor =  if (isLight) pink900 else Color.WHITE
+//    val textColor =  if (isLight) pink900 else Color.WHITE
 
 
 
@@ -175,21 +169,21 @@ fun CustomTextField(value:String, onChange: (value:String)-> Unit, hinttext: Str
 
 
 
-
-@Preview()
-@Composable
-fun DefaultLightPreview() {
-    BloomTheme(darkTheme = false) {
-        LoginPage()
-    }
-}
-
-@Preview()
-@Composable
-fun DefaultDarkPreview() {
-    BloomTheme(darkTheme = true) {
-        LoginPage()
-    }
-}
+//
+//@Preview()
+//@Composable
+//fun DefaultLightPreview() {
+//    BloomTheme(darkTheme = false) {
+//        LoginPage()
+//    }
+//}
+//
+//@Preview()
+//@Composable
+//fun DefaultDarkPreview() {
+//    BloomTheme(darkTheme = true) {
+//        LoginPage()
+//    }
+//}
 
 
